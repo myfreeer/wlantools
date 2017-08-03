@@ -18,12 +18,12 @@ pushd "%~dp0"
 :CheckPerm
 if "%1" == ""  goto :Error
 set "SSID=%1"
-if "%2" == "" goto :Error
+if "%2" == "" goto :Connect
 if "%2" == "WPAPSK" goto :AES
 if "%2" == "WPA2PSK" goto :AES
 set "authentication=open"
 set "encryption=none"
-
+goto :AddProfile
 
 :AES
 if "%3" == "" goto :Error
@@ -60,10 +60,14 @@ if "%encryption%" == "AES" ( netsh wlan set profileparameter ^
     keyType=passphrase ^
     keyMaterial="%Password%" )
 netsh wlan connect "%SSID%" && del /f /q "%TEMP%\TempProfile.xml"
-goto :End
+goto :ConnectWlan_End
+
+:Connect
+netsh wlan connect "%SSID%"
+goto :ConnectWlan_End
 
 :Error
 echo. Error!
 
-:End
-timeout /t 5 || pause
+:ConnectWlan_End
+::timeout /t 5 || pause
