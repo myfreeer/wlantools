@@ -36,10 +36,11 @@ for /f "skip=3 tokens=2 delims= " %%i in ('netstat -e') do (
 :Break
 call :Subtract %byteReceived% %lastByteReceived% diff
 call :divide %diff% %divisor% speed
+if "%speed%" neq "0" if "%speed:~,1%" equ "0" for /f "delims=0 tokens=*" %%s in ('echo %speed%') do set /a speed=%%s
 ::echo %diff%
 ::echo %lastByteReceived%
 ::echo %byteReceived%
-echo Speed: %speed% Mbps
+echo %DATE% %TIME% Speed: %speed% Mbps
 set lastByteReceived=%byteReceived%
 if %speed% lss %threshold% if %speed% gtr 0 (
     netsh wlan connect "name=%name%" "ssid=%name%"
