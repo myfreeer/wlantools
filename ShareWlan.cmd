@@ -162,6 +162,7 @@ call :BeginDateAndTime
 if defined ssidv if [%ssidv%] neq [] echo 虚拟WiFi的显示名称：%ssidv%
 if defined keyv if [%keyv%] neq [] echo 虚拟WiFi的密码：%keyv%
 @netsh wlan show hostednetwork
+@netsh wlan show hostednetwork setting=security
 if %errorlevel%==0 ( set msg=查看共享网络状态成功 ) else ( set msg=查看共享网络状态失败 )
 @echo.
 @echo %msg%
@@ -310,7 +311,7 @@ call :BeginDateAndTime
 @echo.
 @echo 你输入的虚拟WiFi的密码：%keyv%
 @netsh wlan set hostednetwork key=%keyv% keyusage=persistent
-
+@netsh wlan refresh hostednetwork key
 if %errorlevel%==0 ( set msg=更改虚拟WiFi的密码成功 ) else ( set msg=更改虚拟WiFi的密码失败 )
 @echo %msg%
 call :EndDateAndTime
@@ -703,3 +704,11 @@ echo ==== 错误 ====
 echo 检测到不支持的操作系统版本。
 echo 此项目只支持 Windows7/8/8.1。
 exit
+
+::License
+::This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+::This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+::You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+::本程序为自由软件；您可依据自由软件基金会所发表的GNU通用公共授权条款，对本程序再次发布和/或修改；无论您依据的是本授权的第三版，或（您可选的）任一日后发行的版本。
+::本程序是基于使用目的而加以发布，然而不负任何担保责任；亦无对适售性或特定目的适用性所为的默示性担保。详情请参照GNU通用公共授权。
+::您应已收到附随于本程序的GNU通用公共授权的副本；如果没有，请参照<http://www.gnu.org/licenses/>.
